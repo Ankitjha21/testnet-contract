@@ -23,7 +23,7 @@ export const BLOCKS_PER_DAY = 720;
 // TODO: continue to convert these to block heights and mIO token
 export const MAX_GATEWAY_LABEL_LENGTH = 64; // the maximum size of a gateway label field used in the GAR
 export const MAX_PORT_NUMBER = 65535; // the default end port of tcp/udp port numbers
-export const GATEWAY_LEAVE_BLOCK_LENGTH = new BlockHeight(90 * BLOCKS_PER_DAY); // 90 DAYS
+export const GATEWAY_LEAVE_BLOCK_LENGTH = new BlockHeight(21 * BLOCKS_PER_DAY); // TODO: change to 90 days for mainnet
 export const GATEWAY_REDUCE_STAKE_BLOCK_LENGTH = 30 * BLOCKS_PER_DAY; // 30 DAYS
 export const MAX_TOKEN_LOCK_BLOCK_LENGTH = 12 * 365 * BLOCKS_PER_DAY; // The maximum amount of blocks tokens can be locked in a vault (12 years of blocks)
 export const MIN_TOKEN_LOCK_BLOCK_LENGTH = 14 * BLOCKS_PER_DAY; // The minimum amount of blocks tokens can be locked in a vault (14 days of blocks)
