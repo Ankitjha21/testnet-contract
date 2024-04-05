@@ -16,9 +16,9 @@ export const evolveState = async (
     if (gateway.status === 'leaving') {
       // fix the expiration to 21 days (was set at 90)
       const currentEndFor90Days = gateway.end;
-      const currentEndFor21Days = currentEndFor90Days - 69 * BLOCKS_PER_DAY;
-      state.gateways[address].end = currentEndFor21Days;
-      state.gateways[address].vaults[address].end = currentEndFor21Days;
+      const correctEndFor21Days = currentEndFor90Days - 69 * BLOCKS_PER_DAY;
+      state.gateways[address].end = correctEndFor21Days;
+      state.gateways[address].vaults[address].end = correctEndFor21Days;
     }
   }
 
