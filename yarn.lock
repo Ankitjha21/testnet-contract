@@ -192,7 +192,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.18.1
     ajv: ^8.12.0
     arlocal: ^1.1.62
-    arweave: 1.13.7
+    arweave: ^1.15.0
     commitlint: ^18.2.0
     dotenv: ^16.3.1
     esbuild: ^0.17.12
@@ -211,7 +211,7 @@ __metadata:
     ts-jest: ^27.1.3
     ts-node: ^10.9.1
     typescript: 4.3.5
-    warp-contracts: ^1.4.33
+    warp-contracts: ^1.4.40
     warp-contracts-plugin-deploy: ^1.0.1
   languageName: unknown
   linkType: soft
@@ -11713,28 +11713,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"warp-contracts@npm:^1.4.33":
-  version: 1.4.33
-  resolution: "warp-contracts@npm:1.4.33"
-  dependencies:
-    archiver: ^5.3.0
-    arweave: 1.13.7
-    async-mutex: ^0.4.0
-    bignumber.js: 9.1.1
-    events: 3.3.0
-    fast-copy: ^3.0.0
-    level: ^8.0.0
-    memory-level: ^1.0.0
-    safe-stable-stringify: 2.4.1
-    stream-buffers: ^3.0.2
-    unzipit: ^1.4.0
-    warp-arbundles: ^1.0.4
-    warp-isomorphic: ^1.0.7
-    warp-wasm-metering: 1.0.1
-  checksum: cd692f9624e92a2faa3d4f3120f631fea06db51cd880cf9e11be1120238cbe0818b37f032c17ed3e8650a520f7af5a7b52bc95204c6e8e0853a092013faad057
-  languageName: node
-  linkType: hard
-
 "warp-contracts@npm:^1.4.38":
   version: 1.4.38
   resolution: "warp-contracts@npm:1.4.38"
@@ -11754,6 +11732,28 @@ __metadata:
     warp-isomorphic: ^1.0.7
     warp-wasm-metering: 1.0.1
   checksum: ff167710d483e1e125396e745e8234d2816ff5d12081369b110325143aa6dc386bc2e7b7fc296a0860de1dd5994baed53957ce27fd14b1dc139bf5c05a503060
+  languageName: node
+  linkType: hard
+
+"warp-contracts@npm:^1.4.40":
+  version: 1.4.40
+  resolution: "warp-contracts@npm:1.4.40"
+  dependencies:
+    archiver: ^5.3.0
+    arweave: 1.14.4
+    async-mutex: ^0.4.0
+    bignumber.js: 9.1.1
+    events: 3.3.0
+    fast-copy: ^3.0.0
+    level: ^8.0.0
+    memory-level: ^1.0.0
+    safe-stable-stringify: 2.4.1
+    stream-buffers: ^3.0.2
+    unzipit: ^1.4.0
+    warp-arbundles: ^1.0.4
+    warp-isomorphic: ^1.0.7
+    warp-wasm-metering: 1.0.1
+  checksum: aab8a5b9e302a6b898844c9419500f3fc374c1034fe48883c83468209afc8e6d0a794c6260fd998edda1990777738badec23209e6fd9ae3c0d3d0618d9d0ee8d
   languageName: node
   linkType: hard
 
