@@ -18,7 +18,8 @@ export const evolveState = async (
       const currentEndFor90Days = gateway.end;
       const correctEndFor21Days = currentEndFor90Days - 69 * BLOCKS_PER_DAY;
       state.gateways[address].end = correctEndFor21Days;
-      state.gateways[address].vaults[address].end = correctEndFor21Days;
+      state.gateways[address].vaults[address].end =
+        correctEndFor21Days + 4 * BLOCKS_PER_DAY; // add 4 days given the mistake
     }
   }
 
