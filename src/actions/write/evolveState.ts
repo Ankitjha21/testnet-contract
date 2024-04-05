@@ -1,11 +1,5 @@
-import { NON_CONTRACT_OWNER_MESSAGE } from '../../constants';
-import {
-  ContractWriteResult,
-  Fees,
-  IOState,
-  IOToken,
-  PstAction,
-} from '../../types';
+import { BLOCKS_PER_DAY, NON_CONTRACT_OWNER_MESSAGE } from '../../constants';
+import { ContractWriteResult, IOState, PstAction } from '../../types';
 
 // Updates this contract to new source code
 export const evolveState = async (
@@ -18,14 +12,15 @@ export const evolveState = async (
     throw new ContractError(NON_CONTRACT_OWNER_MESSAGE);
   }
 
-  const updatedFees = Object.keys(state.fees).reduce((acc: Fees, key) => {
-    const existingFee = new IOToken(state.fees[key]);
-    // convert the base fee to mIO
-    acc[key] = existingFee.toMIO().valueOf();
-    return acc;
-  }, {});
-
-  state.fees = updatedFees;
+  for (const [address, gateway] of Object.entries(state.gateways)) {
+    if (gateway.status === 'leaving') {
+      // fix the expiration to 21 days (was set at 90)
+      const currentEndFor90Days = gateway.end;
+      const correctEndFor21Days = currentEndFor90Days - 69 * BLOCKS_PER_DAY;
+      state.gateways[address].end = correctEndFor21Days;
+      state.gateways[address].vaults[address].end = correctEndFor21Days;
+    }
+  }
 
   return { state };
 };
