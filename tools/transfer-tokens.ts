@@ -47,6 +47,7 @@ import {
       function: 'transfer',
       target,
       qty,
+      denomination: 'IO', // by default transfer in IO
     },
     {
       disableBundling: true,

@@ -20,9 +20,10 @@ export class TransferToken {
         getInvalidAjvMessage(validateTransferToken, input, 'transferToken'),
       );
     }
-    const { target, qty } = input;
+    const { target, qty, denomination = 'mIO' } = input;
     this.target = target;
-    this.qty = new IOToken(qty).toMIO();
+    this.qty =
+      denomination === 'mIO' ? new mIOToken(qty) : new IOToken(qty).toMIO();
   }
 }
 

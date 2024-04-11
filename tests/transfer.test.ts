@@ -43,6 +43,7 @@ describe('Transfers', () => {
         function: 'transfer',
         target: targetAddress,
         qty: TRANSFER_QTY.valueOf(),
+        denomination: 'IO',
       });
 
       expect(writeInteraction?.originalTxId).not.toBe(undefined);
@@ -69,6 +70,7 @@ describe('Transfers', () => {
         function: 'transfer',
         target: srcContractId, // The smartweave contract id acts as the protocol balance
         qty: TRANSFER_QTY.valueOf(),
+        denomination: 'IO',
       });
 
       expect(writeInteraction?.originalTxId).not.toBe(undefined);
@@ -171,6 +173,7 @@ describe('Transfers', () => {
         function: 'transfer',
         target: targetAddress,
         qty: TRANSFER_QTY.valueOf(),
+        denomination: 'IO',
       });
 
       expect(writeInteraction?.originalTxId).not.toBe(undefined);

@@ -3,7 +3,7 @@ import {
   INVALID_INPUT_MESSAGE,
 } from '../../constants';
 import { getBaselineState, stubbedArweaveTxId } from '../../tests/stubs';
-import { IOToken } from '../../types';
+import { IOToken, mIOToken } from '../../types';
 import { transferTokens } from './transferTokens';
 
 describe('transferTokens', () => {
@@ -64,7 +64,7 @@ describe('transferTokens', () => {
       );
     });
 
-    it('should transfer balances if the user has sufficient balance', async () => {
+    it('should transfer balances if the user has sufficient balance using IO denomination', async () => {
       const initialState = {
         ...getBaselineState(),
         balances: {
@@ -76,6 +76,7 @@ describe('transferTokens', () => {
         input: {
           qty: new IOToken(100).valueOf(),
           target: stubbedArweaveTxId,
+          denomination: 'IO',
         },
       });
       expect(state).toEqual({
@@ -86,5 +87,32 @@ describe('transferTokens', () => {
         },
       });
     });
+
+    it.each([undefined, { denomination: 'mIO' }])(
+      'should transfer balances if the user has sufficient balance using mIO denomination',
+      async (denomination: { denomination: string } | undefined) => {
+        const initialState = {
+          ...getBaselineState(),
+          balances: {
+            test: new mIOToken(10_000).valueOf(),
+          },
+        };
+        const { state } = await transferTokens(initialState, {
+          caller: 'test',
+          input: {
+            qty: new mIOToken(100).valueOf(),
+            target: stubbedArweaveTxId,
+            ...denomination,
+          },
+        });
+        expect(state).toEqual({
+          ...initialState,
+          balances: {
+            test: new mIOToken(9900).valueOf(),
+            [stubbedArweaveTxId]: new mIOToken(100).valueOf(),
+          },
+        });
+      },
+    );
   });
 });
