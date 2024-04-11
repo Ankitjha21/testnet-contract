@@ -14,6 +14,11 @@ const transferTokensSchema = {
       type: 'number',
       minimum: 1,
     },
+    denomination: {
+      type: 'string',
+      enum: ['IO', 'mIO'],
+      default: 'mIO',
+    },
   },
   required: ['target', 'qty'],
   additionalProperties: false,
