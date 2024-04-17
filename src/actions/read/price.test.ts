@@ -8,7 +8,7 @@ describe('getPriceForInteraction', () => {
 
   it.each([
     [
-      'should return the correct price for buyRecord',
+      'should return the correct price for buyRecord when demand factor is 1',
       state,
       {
         caller: 'test-caller',
@@ -28,7 +28,35 @@ describe('getPriceForInteraction', () => {
       ),
     ],
     [
-      'should return the correct price for extendRecord',
+      'should return the correct price for buyRecord when demand factor is not 1',
+      {
+        ...state,
+        demandFactoring: {
+          ...state.demandFactoring,
+          demandFactor: 0.5,
+        },
+      },
+      {
+        caller: 'test-caller',
+        input: {
+          interactionName: 'buyRecord' as InteractionsWithFee,
+          name: 'test-buy-record',
+          type: 'permabuy',
+        },
+      },
+      new mIOToken(GENESIS_FEES['test-buy-record'.length])
+        .plus(
+          new mIOToken(
+            // permabuy so 10 year annual renewal fee
+            GENESIS_FEES['test-buy-record'.length],
+          )
+            .multiply(10)
+            .multiply(0.2),
+        )
+        .multiply(0.5),
+    ],
+    [
+      'should return the correct price for extendRecord when demand factor is 1',
       {
         ...state,
         records: {
@@ -53,7 +81,36 @@ describe('getPriceForInteraction', () => {
       new mIOToken(50_000),
     ],
     [
-      'should return the correct price for increaseUndernameCount',
+      'should return the correct price for extendRecord when demand factor is not 1',
+      {
+        ...state,
+        demandFactoring: {
+          ...state.demandFactoring,
+          demandFactor: 0.5,
+        },
+        records: {
+          'existing-record': {
+            contractTxId: 'test-contract-tx-id',
+            endTimestamp: +SmartWeave.block.timestamp + SECONDS_IN_A_YEAR, // one years,
+            type: 'lease',
+            startTimestamp: +SmartWeave.block.timestamp,
+            undernames: 10,
+            purchasePrice: 1000,
+          },
+        },
+      } as IOState,
+      {
+        caller: 'test-caller',
+        input: {
+          interactionName: 'extendRecord' as InteractionsWithFee,
+          name: 'existing-record',
+          years: 1,
+        },
+      },
+      new mIOToken(25_000),
+    ],
+    [
+      'should return the correct price for increaseUndernameCount when demand factor is 1',
       {
         ...state,
         records: {
@@ -78,7 +135,36 @@ describe('getPriceForInteraction', () => {
       new mIOToken(1250),
     ],
     [
-      'should return the correct price for increaseUndernameCount',
+      'should return the correct price for increaseUndernameCount when demand factor is not 1',
+      {
+        ...state,
+        demandFactoring: {
+          ...state.demandFactoring,
+          demandFactor: 0.5,
+        },
+        records: {
+          'existing-record': {
+            contractTxId: 'test-contract-tx-id',
+            endTimestamp: +SmartWeave.block.timestamp + SECONDS_IN_A_YEAR, // one year from the current block timestamp,
+            type: 'lease',
+            startTimestamp: +SmartWeave.block.timestamp,
+            undernames: 10,
+            purchasePrice: 1000,
+          },
+        },
+      } as IOState,
+      {
+        caller: 'test-caller',
+        input: {
+          interactionName: 'increaseUndernameCount' as InteractionsWithFee,
+          name: 'existing-record',
+          qty: 5,
+        },
+      },
+      new mIOToken(625),
+    ],
+    [
+      'should return the correct price for increaseUndernameCount when demand factor is 1',
       {
         ...state,
         records: {
@@ -100,6 +186,34 @@ describe('getPriceForInteraction', () => {
         },
       },
       new mIOToken(62500),
+    ],
+    [
+      'should return the correct price for increaseUndernameCount when demand factor is not 1',
+      {
+        ...state,
+        demandFactoring: {
+          ...state.demandFactoring,
+          demandFactor: 0.5,
+        },
+        records: {
+          'existing-record': {
+            contractTxId: 'test-contract-tx-id',
+            type: 'permabuy',
+            startTimestamp: +SmartWeave.block.timestamp,
+            undernames: 10,
+            purchasePrice: 1000,
+          },
+        },
+      } as IOState,
+      {
+        caller: 'test-caller',
+        input: {
+          interactionName: 'increaseUndernameCount' as InteractionsWithFee,
+          name: 'existing-record',
+          qty: 5,
+        },
+      },
+      new mIOToken(31250),
     ],
     [
       'should return the current bid for an existing auction and submitAuctionBid',

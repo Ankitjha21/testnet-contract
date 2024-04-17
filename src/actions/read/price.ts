@@ -128,7 +128,12 @@ export function getPriceForInteraction(
         currentBlockTimestamp: interactionTimestamp,
         years,
       });
-      fee = calculateAnnualRenewalFee({ name, years, fees: state.fees });
+      // multiply the renewal fee by the demand factor - it does not do it internally
+      fee = calculateAnnualRenewalFee({
+        name,
+        years,
+        fees: state.fees,
+      }).multiply(state.demandFactoring.demandFactor);
       break;
     }
     case 'increaseUndernameCount': {
