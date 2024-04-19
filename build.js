@@ -7,6 +7,7 @@ const replace = require('replace-in-file');
 const {
   auctionBidSchema,
   buyRecordSchema,
+  createReservedNameSchema,
   extendRecordSchema,
   increaseUndernameCountSchema,
   joinNetworkSchema,
@@ -27,6 +28,7 @@ const ajv = new Ajv({
   schemas: [
     auctionBidSchema,
     buyRecordSchema,
+    createReservedNameSchema,
     extendRecordSchema,
     increaseUndernameCountSchema,
     joinNetworkSchema,
@@ -48,6 +50,7 @@ const ajv = new Ajv({
 const moduleCode = standaloneCode(ajv, {
   validateAuctionBid: '#/definitions/auctionBid',
   validateBuyRecord: '#/definitions/buyRecord',
+  validateCreateReservedName: '#/definitions/createReservedName',
   validateExtendRecord: '#/definitions/extendRecord',
   validateIncreaseUndernameCount: '#/definitions/increaseUndernameCount',
   validateJoinNetwork: '#/definitions/joinNetwork',
