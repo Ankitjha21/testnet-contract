@@ -1,7 +1,6 @@
-import { getInvalidAjvMessage } from 'src/utilities';
-
 import { NON_CONTRACT_OWNER_MESSAGE } from '../../constants';
 import { ContractWriteResult, IOState, PstAction } from '../../types';
+import { getInvalidAjvMessage } from '../../utilities';
 import { validateCreateReservedName } from '../../validations';
 
 export class ReservedName {

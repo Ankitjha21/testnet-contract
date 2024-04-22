@@ -169,4 +169,31 @@ export default {
     ];
     return questionList;
   },
+  createReservedName: (): QuestionCollection => {
+    const questionList: QuestionCollection = [
+      {
+        name: 'name',
+        type: 'input',
+        message: 'Enter the name you want to reserve > ',
+        validate: (value: string) =>
+          value.length > 0 ? true : 'Please Enter Valid Name',
+      },
+      {
+        name: 'target',
+        type: 'input',
+        message: 'Enter the target address for the reserved name > ',
+        validate: (value: string) =>
+          isArweaveAddress(value) ? true : 'Please Enter Valid Address',
+      },
+      {
+        name: 'endTimestamp',
+        type: 'number',
+        message: 'Enter the end timestamp for the reserved name > ',
+        default: Date.now() + 1000 * 60 * 60 * 24 * 365, // 1 year expiration
+        validate: (value: number) =>
+          value > Date.now() ? true : 'Please Enter Valid Timestamp',
+      },
+    ];
+    return questionList;
+  },
 };
