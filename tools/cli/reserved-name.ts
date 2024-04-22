@@ -53,7 +53,7 @@ import questions from './questions';
     while (attempts < 3) {
       const dryWrite = await contract.dryWrite(payload);
       if (dryWrite.type === 'error' || dryWrite.errorMessage) {
-        lastErrorMessage = dryWrite.errorMessage;
+        lastErrorMessage = dryWrite.errorMessage ?? "Unknown error";
         attempts++;
         await new Promise((resolve) => setTimeout(resolve, 1000)); // wait one second before retrying
       } else {
