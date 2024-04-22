@@ -13,9 +13,11 @@ const { updateGatewaySchema } = require('./updateGateway');
 const { delegateStakeSchema } = require('./delegateStake');
 const { decreaseDelegateStakeSchema } = require('./decreaseDelegateStake');
 const { decreaseOperatorStakeSchema } = require('./decreaseOperatorStake');
+const { createReservedNameSchema } = require('./createReservedName');
 module.exports = {
   auctionBidSchema,
   buyRecordSchema,
+  createReservedNameSchema,
   extendRecordSchema,
   increaseUndernameCountSchema,
   joinNetworkSchema,
