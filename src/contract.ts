@@ -7,6 +7,7 @@ import { getEpoch, getPrescribedObservers } from './actions/read/observers';
 import { getPriceForInteraction } from './actions/read/price';
 import { getRecord } from './actions/read/record';
 import { buyRecord } from './actions/write/buyRecord';
+import { createReservedName } from './actions/write/createReservedName';
 import { createVault } from './actions/write/createVault';
 import { decreaseDelegateStake } from './actions/write/decreaseDelegateStake';
 import { decreaseOperatorStake } from './actions/write/decreaseOperatorStake';
@@ -58,6 +59,10 @@ export async function handle(
   const { state: tickedState } = await tick(state);
 
   switch (input.function as IOContractFunctions) {
+    // owner wallet functions
+    case 'createReservedName':
+      return createReservedName(tickedState, action);
+
     // registry read interactions
     case 'gateway':
       return getGateway(tickedState, action);

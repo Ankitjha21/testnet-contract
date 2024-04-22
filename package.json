@@ -21,7 +21,8 @@
     "delegate-stake": "yarn ts-node ./tools/cli/delegate-stake.ts",
     "update-gateway-settings": "yarn ts-node ./tools/cli/update-gateway-settings.ts",
     "get-balance": "yarn ts-node ./tools/cli/get-balance.ts",
-    "increase-operator-stake": "yarn ts-node ./tools/cli/increase-operator-stake.ts"
+    "increase-operator-stake": "yarn ts-node ./tools/cli/increase-operator-stake.ts",
+    "create-reserved-name": "yarn ts-node ./tools/cli/reserved-name.ts"
   },
   "devDependencies": {
     "@ar.io/sdk": "^1.0.0-alpha.12",
