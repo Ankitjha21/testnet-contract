@@ -49,14 +49,18 @@ import questions from './questions';
     };
 
     let attempts = 0;
-    let lastErrorMessage = '';
+    let lastErrorMessage;
     while (attempts < 3) {
       const dryWrite = await contract.dryWrite(payload);
       if (dryWrite.type === 'error' || dryWrite.errorMessage) {
         lastErrorMessage = dryWrite.errorMessage;
+        attempts++;
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // wait one second before retrying
+      } else {
+        // success - break
+        lastErrorMessage = undefined;
+        break;
       }
-      attempts++;
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // wait one second before retrying
     }
 
     if (lastErrorMessage) {
