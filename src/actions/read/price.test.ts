@@ -56,6 +56,34 @@ describe('getPriceForInteraction', () => {
         .multiply(0.5),
     ],
     [
+      'should return the correct price for buyRecord of a reserved name when the caller is not the reserved target',
+      {
+        ...state,
+        reserved: {
+          'test-reserved-name': {
+            target: 'test-target',
+            endTimestamp: +SmartWeave.block.timestamp + SECONDS_IN_A_YEAR,
+          },
+        },
+      },
+      {
+        caller: 'test-caller',
+        input: {
+          interactionName: 'buyRecord' as InteractionsWithFee,
+          name: 'test-reserved-name',
+          type: 'permabuy',
+        },
+      },
+      new mIOToken(GENESIS_FEES['test-reserved-name'.length]).plus(
+        new mIOToken(
+          // permabuy so 10 year annual renewal fee
+          GENESIS_FEES['test-reserved-name'.length],
+        )
+          .multiply(10)
+          .multiply(0.2),
+      ),
+    ],
+    [
       'should return the correct price for extendRecord when demand factor is 1',
       {
         ...state,
