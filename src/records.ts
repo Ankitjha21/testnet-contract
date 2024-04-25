@@ -168,6 +168,11 @@ export function assertAvailableRecord({
     return;
   }
 
+  // if caller is not provided, assume a read interaction and do not throw
+  if (!caller) {
+    return;
+  }
+
   if (isReserved) {
     throw new ContractError(ARNS_NAME_RESERVED_MESSAGE);
   }

@@ -65,7 +65,7 @@ export function getPriceForInteraction(
         });
       }
       assertAvailableRecord({
-        caller,
+        caller: undefined, // stub the caller so we still get the price
         name,
         records: state.records,
         reserved: state.reserved,
@@ -87,7 +87,7 @@ export function getPriceForInteraction(
       const { name, type } = new AuctionBid(parsedInput);
       const auction = state.auctions[name];
       assertAvailableRecord({
-        caller,
+        caller: undefined, // stub the caller so we still get the price
         name,
         records: state.records,
         reserved: state.reserved,
