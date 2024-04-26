@@ -34,48 +34,56 @@ import questions from './questions';
       validity: true,
     });
 
+  const payload = {
+    function: 'createReservedName',
+    target: reservedName.target,
+    name: reservedName.name,
+    endTimestamp: reservedName.endTimestamp,
+  };
+
+  let attempts = 0;
+  let lastErrorMessage;
+  let result;
+  while (attempts < 3) {
+    const dryWrite = await contract.dryWrite(payload);
+    if (dryWrite.type === 'error' || dryWrite.errorMessage) {
+      lastErrorMessage = dryWrite.errorMessage ?? 'Unknown error';
+      attempts++;
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // wait one second before retrying
+    } else {
+      // success - break
+      result = dryWrite.state.reserved[reservedName.name];
+      lastErrorMessage = undefined;
+      break;
+    }
+  }
+
+  if (lastErrorMessage) {
+    console.error('Error:', lastErrorMessage);
+    return;
+  }
+
   const confirm = await inquirer.prompt({
     name: 'confirm',
     type: 'confirm',
-    message: `CONFIRM RESERVED NAME DETAILS? ${JSON.stringify(reservedName)} >`,
+    message: `CONFIRM RESERVED NAME DETAILS? ${JSON.stringify({
+      name: reservedName.name,
+      ...result,
+    })} >`,
   });
 
-  if (confirm.confirm) {
-    const payload = {
-      function: 'createReservedName',
-      target: reservedName.target,
-      name: reservedName.name,
-      endTimestamp: reservedName.endTimestamp,
-    };
-
-    let attempts = 0;
-    let lastErrorMessage;
-    while (attempts < 3) {
-      const dryWrite = await contract.dryWrite(payload);
-      if (dryWrite.type === 'error' || dryWrite.errorMessage) {
-        lastErrorMessage = dryWrite.errorMessage ?? 'Unknown error';
-        attempts++;
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // wait one second before retrying
-      } else {
-        // success - break
-        lastErrorMessage = undefined;
-        break;
-      }
-    }
-
-    if (lastErrorMessage) {
-      console.error('Error:', lastErrorMessage);
-      return;
-    }
-
-    console.log('Submitting transaction to create reserved name...');
-
-    const txId = await contract.writeInteraction(payload, {
-      disableBundling: true,
-    });
-    // eslint-disable-next-line
-    console.log(
-      `Successfully submitted interaction to create reserved name. TxId: ${txId?.originalTxId}`,
-    );
+  if (!confirm.confirm) {
+    console.log('User cancelled the transaction.');
+    return;
   }
+
+  console.log('Submitting transaction to create reserved name...');
+
+  const txId = await contract.writeInteraction(payload, {
+    disableBundling: true,
+  });
+  // eslint-disable-next-line
+  console.log(
+    `Successfully submitted interaction to create reserved name. TxId: ${txId?.originalTxId}`,
+  );
 })();

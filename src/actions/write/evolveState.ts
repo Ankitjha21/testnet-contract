@@ -1,5 +1,5 @@
-import { BLOCKS_PER_DAY, NON_CONTRACT_OWNER_MESSAGE } from '../../constants';
-import { ContractWriteResult, IOState, PstAction } from '../../types';
+import { NON_CONTRACT_OWNER_MESSAGE } from '../../constants';
+import { ContractWriteResult, Fees, IOState, PstAction } from '../../types';
 
 // Updates this contract to new source code
 export const evolveState = async (
@@ -12,16 +12,14 @@ export const evolveState = async (
     throw new ContractError(NON_CONTRACT_OWNER_MESSAGE);
   }
 
-  for (const [address, gateway] of Object.entries(state.gateways)) {
-    if (gateway.status === 'leaving') {
-      // fix the expiration to 21 days (was set at 90)
-      const currentEndFor90Days = gateway.end;
-      const correctEndFor21Days =
-        currentEndFor90Days - 69 * BLOCKS_PER_DAY + 4 * BLOCKS_PER_DAY; // add 4 days given the mistake
-      state.gateways[address].end = correctEndFor21Days;
-      state.gateways[address].vaults[address].end = correctEndFor21Days;
-    }
-  }
+  const updatedFees = Object.keys(state.fees).reduce((acc: Fees, key) => {
+    const existingFee = state.fees[key];
+    // convert the base fee to mIO
+    acc[key] = existingFee / 1_000_000;
+    return acc;
+  }, {});
+
+  state.fees = updatedFees;
 
   return { state };
 };
