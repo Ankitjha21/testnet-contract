@@ -15,7 +15,9 @@ import { DeployPlugin } from 'warp-contracts-plugin-deploy';
 import { keyfile } from './constants';
 
 // gate the contract txId
-export const arnsContractTxId = 'bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U';
+export const arnsContractTxId =
+  process.env.ARNS_CONTRACT_TX_ID ??
+  'bLAgYxAdX2Ry-nt6aH2ixgvJXbpsEYm28NgJgyqfs-U';
 
 // intended to be run before any scripts
 export const initialize = (): void => {
