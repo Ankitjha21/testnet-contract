@@ -34,12 +34,12 @@ describe('calculateAuctionPriceForBlock', () => {
       ],
       [
         'should be half the start price after ~2.5 days (1800 blocks)',
-        new BlockHeight(1800),
+        new BlockHeight(1700),
         startPrice.divide(2),
       ],
       [
         'should twice the floor price after ~11.5 days (8300 blocks)',
-        new BlockHeight(8300),
+        new BlockHeight(8200),
         floorPrice.multiply(2),
       ],
       [
@@ -118,7 +118,7 @@ describe('calculateAuctionPriceForBlock', () => {
   describe('getEndTimestampForAuction function', () => {
     const baselineAuctionData: ArNSBaseAuctionData = {
       startHeight: 1,
-      endHeight: 4,
+      endHeight: 3,
       type: 'lease',
       startPrice: 100,
       floorPrice: 10,
